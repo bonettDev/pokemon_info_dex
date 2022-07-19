@@ -1,51 +1,40 @@
 import React, { useState, useEffect } from 'react'
+import { getPokemon, getAllPokemon } from './services/pokemon'
 import { Container } from 'react-bootstrap'
 import PokemonComponent from './components/PokemonComponet'
-import axios from 'axios'
 
-const App = () => {
+function App(){
 
-  const [ pokemonUrl, setPokemonUrl ] = useState([])
+  const [ pokemonData, setPokemonData ] = useState([])
+  const initialUrl = 'https://pokeapi.co/api/v2/pokemon'
 
-
-  useEffect(() => {
-    obtenerUrlInicialesPokemones()
-  }, [])
 
   /**
   * @author boris_bonett
   * @since 2022-07-19
   * @description Obtener las url bases de los pokemones
   */
+  useEffect(() => {
+    async function fetchData(){
+      let response = await getAllPokemon(initialUrl)
+      await loadPokemon(response.results)
+    }
+    fetchData()
+  },[])
 
-  const obtenerUrlInicialesPokemones = async () => {
-    const url = 'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20'
-    await axios.get(url)
-    .then(response => {
-      const { data } = response
-      //console.log(data.results)
-      loadPokemon(data.results)
-    })
-    .catch(error =>{
-      console.log(error)
-    })
-  }
 
-  const loadPokemon = async (data) => {
-    //console.log(data)
-    let referenceArray = []
-    await data.map( pokemon => {
-      let pokemonRecord = axios(pokemon.url)
-        .then(response => {
-          //console.log(response.data)
-          referenceArray.push(response.data)
-        })
-        .catch(error => {
-        console.log(error)
-      })
-    })
-    setPokemonUrl(referenceArray)
-  } 
+  /**
+  * @author boris_bonett
+  * @since 2022-07-19
+  * @description Obtener todos los pokemones
+  */
+  async function loadPokemon(data) {
+    let _pokemonData = await Promise.all(data.map(async function(pokemon) {
+      let pokemonRecord = await getPokemon(pokemon)
+      return pokemonRecord
+    }))
+    setPokemonData(_pokemonData)
+  }  
 
 
   return (
@@ -55,7 +44,7 @@ const App = () => {
       </header>
 
       <Container>
-        <PokemonComponent  pokemonUrl={pokemonUrl}/>
+        <PokemonComponent pokemonData={pokemonData} />
       </Container>
     </>
   );

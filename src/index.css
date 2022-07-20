@@ -1,3 +1,11 @@
+.contenedor {
+    height: 100vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 header {
     background-color: #ededed;
     color: rgb(180, 180, 180);
@@ -13,4 +21,18 @@ header h1 {
 header h1 span {
     font-weight: 900;
     color: black;
+}
+
+.shadow {
+    box-shadow: 10px 5px 5px black;
+}
+
+.spinner{
+    display: flex;
+    justify-content: center;
+}
+
+.poder{
+    width: 100px;
+    height: 100px;
 }

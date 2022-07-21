@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { getPokemon, getAllPokemon } from './services/pokemon'
 import PokemonComponent from './components/PokemonComponet'
+import { Spinner, Modal, Button, Image, ProgressBar } from 'react-bootstrap'
 
 function App(){
 
-  const [ pokemonData, setPokemonData ] = useState([])
+  const [pokemonData, setPokemonData] = useState([])
   const [nextUrl, setNextUrl] = useState('')
   const [prevUrl, setPrevUrl] = useState('')
   const [loading, setLoading] = useState(false)
-  const initialUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=4'
+  const initialUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=10'
 
 
   /**
@@ -28,10 +29,22 @@ function App(){
     fetchData()
   },[])
 
+  function resetPokemon() {
+    setLoading(true)
+    async function fetchData(){
+      let response = await getAllPokemon(initialUrl)
+      setNextUrl(response.next);
+      setPrevUrl(response.previous);
+      await loadPokemon(response.results)
+      setLoading(false)
+    }
+    fetchData()
+  }
+
   /**
   * @author boris_bonett
   * @since 2022-07-19
-  * @description Pasar al siguiente pagina de pokemones
+  * @description Pasar a la siguiente pagina de pokemones
   */
   async function next(){
     setLoading(true)
@@ -62,20 +75,42 @@ function App(){
       return pokemonRecord
     }))
     setPokemonData(_pokemonData)
-  }  
+  }
+
 
   return (
-    <div className='contenedor'>
-        <header className="py-3"> 
+    <div className='grid_template'>
+      
+      <header className='header'> 
         <h1>Información De <span>Pokemones</span></h1> 
       </header>
+      {
+        loading ? <div className='spinerPokemon'>
+          <Spinner style={{ width: '5rem', height: '5rem' }} animation="border" variant="danger">
+            <span className='visually-hidden'>Loading...</span>
+          </Spinner></div> : (
+          <>
+            <div className="cardButton">
+              <div>
+                <button onClick={resetPokemon} className='cardButtonReset'>To reset</button>
+              </div>
+              <div>
+                <button onClick={prev} className="cardButtonPrev">Prev</button>
+              </div>
+              <div>
+                <button onClick={next} className="cardButtonNext">Next</button>
+              </div>
+            </div>
 
-      <section>
-        <h1>Section de Pokemones</h1>
-      </section>
+          <section className='section'>
+            <PokemonComponent pokemonData={pokemonData} />
+          </section>
+          </>
+        )
+      }
 
-      <footer>
-        <h1>Footer</h1>
+      <footer className='footer'>
+        <h1>Pokemon <span>@dev_nett99</span></h1>
       </footer>
 
     </div>

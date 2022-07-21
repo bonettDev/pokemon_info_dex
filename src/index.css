@@ -1,38 +1,239 @@
-.contenedor {
-    height: 100vh;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+body {
+    padding: 0px;
+    margin: 0px;
 }
 
-header {
+.grid_template {
+    height: 100vh;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas: "header header header header"
+                         "spinerPokemon spinerPokemon spinerPokemon spinerPokemon"
+                         "cardButton cardButton cardButton cardButton"
+                         "section section section section "
+                         "footer footer footer footer";
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    grid-area: header;
+    height: 90px;
     background-color: #ededed;
     color: rgb(180, 180, 180);
     text-align: center;
     box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
-    font-weight: 'Outfit', sans-serif;
+.header > h1 {
+    padding: 0 10px 0 10px;
+    font-family: 'Signika', sans-serif;
     font-weight: 900;
 }
 
-header h1 span {
+.header > h1 > span {
     font-weight: 900;
     color: black;
 }
 
-.shadow {
-    box-shadow: 10px 5px 5px black;
+.section {
+    grid-area: section;
+    overflow: scroll;
+    grid-area: section;
+    width: 100%;
+    height: 350px;
 }
 
-.spinner{
+.footer {
+    grid-area: footer;
+}
+
+.footer > h1 {
+    margin-left: 1rem;
+}
+
+.footer > h1 > span {
+    color: #dc3545;
+    font-size: 1.5rem;
+
+}
+
+
+/* components of card */
+.cardContainer {
+    display: grid;
+    grid-template-areas: "card card card card";
+}
+
+.cardSon {
+    grid-area: card;
     display: flex;
+    justify-content: space-around;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin: 5px;
+    height: auto;
+    width: 200px;
+    background-color: #ededed;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.card > img {
+    width: 100%;
+    height: 200px;
+}
+
+.cardButton {
+    grid-area: cardButton;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardButtonPrev {
+    margin-right: 3px;
+    background: rgb(180, 180, 180);
+    border: none;
+    padding: 10px;
+    width: 4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: aliceblue;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cardButtonPrev:hover{
+    background: rgb(210, 210, 210);
+}
+
+.cardButtonNext {
+    margin-left: 3px;
+    background: rgb(180, 180, 180);
+    border: none;
+    padding: 10px;
+    width: 4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: aliceblue;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cardButtonNext:hover{
+    background: rgb(210, 210, 210);
+}
+
+.cardButtonReset {
+    margin-right: 5px;
+    background: #dc3545;
+    border: none;
+    padding: 10px;
+    width: 5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: aliceblue;
+    box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.2);
+}
+
+.cardButtonReset:hover{
+    background: #f43145;
+}
+
+p {
+    font-family: 'Signika', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+.divCero {
+    text-align: center;
+    font-weight: 500;
+    font-family: 'Signika', sans-serif;
+}
+/* end components of card rgb(180, 180, 180)  #1d76fb */
+
+footer {
+    grid-area: footer;
+    background: #242424;
+    color: #ededed;
+    font-family: 'Signika', sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+.spinerPokemon {
+    grid-area: spinerPokemon;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-.poder{
+.spinerPokemonSon { 
     width: 100px;
     height: 100px;
+}
+
+
+/* For typical mobile devices */
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+    .grid_template {
+        display: grid;
+        grid-template-areas: "header"
+                             "spinerPokemon"
+                             "cardButton"
+                             "section"
+                             "footer";
+    }
+
+    .section {
+        height: 400px;
+        overflow-y: scroll;
+    }
+
+    .card {
+        margin-top: 1rem;
+    }
+
+    .cardSon {
+        grid-area: card;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .cardContainer {
+        display: grid;
+        grid-template-areas: "card";
+    }
+}
+
+/*For mobile (landscape) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+    .grid_template {
+        display: grid;
+        grid-template-areas: "header header"
+                             "spinerPokemon spinerPokemon"
+                             "cardButton cardButton"
+                             "section section"
+                             "footer footer";
+    }
+
+    .section {
+        overflow: scroll;
+        grid-area: section;
+        width: 100%;
+        height: 350px;
+    }
+
+    .cardContainer {
+        display: grid;
+        grid-template-areas: "card card card card";
+        padding: 1rem;
+    }
 }
